@@ -1,0 +1,1 @@
+Demo JUnit5 attachment
