@@ -18,7 +18,6 @@ public class ChatSteps extends baseTest {
         testContext.setSharedVariable(SharedVariables.API_RESPONSE, response);
         Assert.assertEquals(201, response.getStatusCode());
         Assert.assertEquals("User created successfully!", response.jsonPath().getString("message"));
-        chatInfo.setToken(response.getCookie("jwt"));
         chatInfo.setUserName(response.jsonPath().get("user.fullName"));
         chatInfo.setUserEmail(response.jsonPath().get("user.email"));
 
@@ -30,12 +29,12 @@ public class ChatSteps extends baseTest {
         testContext.setSharedVariable(SharedVariables.API_RESPONSE, response);
         Assert.assertEquals(200, response.getStatusCode());
         Assert .assertEquals("Login successful!", response.jsonPath().getString("message"));
-        sleep(3000);
+        chatInfo.setToken(response.getCookie("jwt"));
     }
 
     @Then("^User checks the status for Onboarding$")
     public void user_checks_the_status_for_onboarding() {
-        Response response = ManageChat.me();
+        Response response = ManageChat.me(chatInfo);
         testContext.setSharedVariable(SharedVariables.API_RESPONSE, response);
         Assert.assertEquals(200, response.getStatusCode());
     }
@@ -49,7 +48,7 @@ public class ChatSteps extends baseTest {
 
     @Then ("^User logs out from the application$")
     public void user_logs_out_from_the_application() {
-        Response response = ManageChat.logout();
+        Response response = ManageChat.logout(chatInfo);
         testContext.setSharedVariable(SharedVariables.API_RESPONSE, response);
         Assert.assertEquals(200, response.getStatusCode());
     }

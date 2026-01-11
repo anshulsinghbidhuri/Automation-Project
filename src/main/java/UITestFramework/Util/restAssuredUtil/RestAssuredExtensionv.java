@@ -24,10 +24,8 @@ public class RestAssuredExtensionv {
     }
 
     public void addToken(String token){
-        if(token!=null){
-            builder.addHeader("token", token.replace("token", "").trim());
-        }else{
-            builder.addHeader("Authorization", token);
+        if(token != null && !token.isEmpty()){
+            builder.addHeader("Cookie", "jwt=" + token);
         }
     }
 

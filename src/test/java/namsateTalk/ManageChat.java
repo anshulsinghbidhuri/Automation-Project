@@ -23,25 +23,25 @@ public class ManageChat extends baseTest {
         jsonBody.put("fullName","Automation User"+ randomString());
         jsonBody.put("email",randomEmail());
         jsonBody.put("password","123456");
-        return (Response) new RestAssuredExtensionv(namastTalk.SIGNUP.chatProject(), "POST", "Bearer ").executeWithBody(jsonBody);
+        return (Response) new RestAssuredExtensionv(namastTalk.SIGNUP.chatProject(), "POST", null).executeWithBody(jsonBody);
     }
     public static  Response logIn(ChatInfo chatInfo) {
         HashMap<String, Object> jsonBody = new HashMap<>();
         jsonBody.put("email",chatInfo.userEmail );
         jsonBody.put("password", "123456");
-        return (Response) new RestAssuredExtensionv(namastTalk.LOGIN.chatProject(), "POST", "Bearer").executeWithBody(jsonBody);
+        return (Response) new RestAssuredExtensionv(namastTalk.LOGIN.chatProject(), "POST", null).executeWithBody(jsonBody);
     }
 
-    public static Response me(){
-        return (Response) new RestAssuredExtensionv(namastTalk.ME.chatProject(), "GET", "Bearer").execute();
+    public static Response me(ChatInfo chatInfo){
+        return (Response) new RestAssuredExtensionv(namastTalk.ME.chatProject(), "GET",chatInfo.getToken()).execute();
     }
 
-    public static Response logout(){
-        return (Response) new RestAssuredExtensionv(namastTalk.LOGOUT.chatProject(), "POST", "Bearer").execute();
+    public static Response logout(ChatInfo chatInfo){
+        return (Response) new RestAssuredExtensionv(namastTalk.LOGOUT.chatProject(), "POST",chatInfo.getToken()).execute();
     }
 
-    public  static  Response delete(){
-        return (Response) new RestAssuredExtensionv(namastTalk.DELETE.chatProject(), "DELETE", "Bearer").execute();
+    public  static  Response delete(ChatInfo chatInfo){
+        return (Response) new RestAssuredExtensionv(namastTalk.DELETE.chatProject(), "DELETE", chatInfo.getToken()).execute();
     }
 
     public static Response onBoarding(ChatInfo chatInfo){
