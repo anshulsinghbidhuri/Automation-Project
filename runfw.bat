@@ -58,23 +58,38 @@ set "cucumber_tags=@%tag_expression%"
 REM Allow selecting a TestNG runner class (default to TestRunner.TestRunner)
 set "test_runner=TestRunner.TestRunner"
 
+REM Show what will run
+echo --- Run summary ---
+echo project_root: %project_root%
+echo tag_expression: %tag_expression%
+echo generate_report: %generate_report%
+echo enable_debug: %enable_debug%
+
 echo mvn %debug_options% -Dtest=%test_runner% test -Denv=local -Dcucumber.features=%cucumber_features% -Dcucumber.plugin=%cucumber_plugin% -Dcucumber.filter.tags="%cucumber_tags%" -Dtestng.output=./target/testng-results.xml
 call mvn %debug_options% -Dtest=%test_runner% test -Denv=local -Dcucumber.features=%cucumber_features% -Dcucumber.plugin=%cucumber_plugin% -Dcucumber.filter.tags="%cucumber_tags%" -Dtestng.output=./target/testng-results.xml
+
+REM capture maven exit code and show it
+set "mvn_exit_code=%ERRORLEVEL%"
+echo Maven exited with code %mvn_exit_code%
+
+REM Ensure we always jump to the report generation section so the logic is explicit
+goto :generate_allure
 
 :generate_allure
 if "%generate_report%"=="true" (
     REM Execute Allure command to serve the report if results exist
     if exist "%project_root%\target\allure-results" (
-        if exist "%ProgramFiles%\allure\bin\allure.exe" (
-            echo Serving Allure report...
-            allure serve "%project_root%\target\allure-results"
-        ) else (
-            echo Attempting to run Allure CLI (must be on PATH)...
-            allure serve "%project_root%\target\allure-results"
-        )
+        echo Found Allure results at "%project_root%\target\allure-results"
+        echo Listing contents of the results directory:
+        dir "%project_root%\target\allure-results"
+        REM Try to start Allure directly; this avoids nested quoting issues
+        echo Attempting to launch Allure...
+        start "" allure serve "%project_root%\target\allure-results"
     ) else (
-        echo No allure results found at "%project_root%\target\allure-results"
+        echo No allure results found at "%project_root%\target\allure-results". Skipping Allure serve.
     )
+) else (
+    echo generate_report is false, skipping Allure serve.
 )
 
 endlocal
