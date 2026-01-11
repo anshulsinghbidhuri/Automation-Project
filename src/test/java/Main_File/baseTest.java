@@ -4,7 +4,7 @@ import Common.TestContext;
 
 public class baseTest {
     protected TestContext testContext = new TestContext();
-public String randomStraing() {
+public static String randomString() {
     StringBuilder sb = new StringBuilder();
     String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     for (int i = 0; i < 10; i++) {
@@ -14,7 +14,7 @@ public String randomStraing() {
     return sb.toString();
 }
 
-public String randomNumber(String countryCode) {
+public static String randomNumber(String countryCode) {
     StringBuilder sb = new StringBuilder();
     String characters = "0123456789";
     for (int i = 0; i < 10; i++) {
@@ -24,7 +24,7 @@ public String randomNumber(String countryCode) {
     return sb.toString();
 }
 
-public String randomEmail() {
+public static String randomEmail() {
     StringBuilder sb = new StringBuilder();
     String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     for (int i = 0; i < 10; i++) {
