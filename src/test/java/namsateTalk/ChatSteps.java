@@ -52,5 +52,11 @@ public class ChatSteps extends baseTest {
         testContext.setSharedVariable(SharedVariables.API_RESPONSE, response);
         Assert.assertEquals(200, response.getStatusCode());
     }
+    @And("^User Deletes the account the application")
+    public void user_deletes_the_account() {
+        Response response = ManageChat.delete(chatInfo);
+        testContext.setSharedVariable(SharedVariables.API_RESPONSE, response);
+        Assert.assertEquals(200, response.getStatusCode());
+    }
 }
 

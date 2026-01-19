@@ -41,7 +41,10 @@ public class ManageChat extends baseTest {
     }
 
     public  static  Response delete(ChatInfo chatInfo){
-        return (Response) new RestAssuredExtensionv(namastTalk.DELETE.chatProject(), "DELETE", chatInfo.getToken()).execute();
+        HashMap<String, Object> jsonBody = new HashMap<>();
+        jsonBody.put("fullName",chatInfo.userName);
+        jsonBody.put("email",chatInfo.userEmail);
+        return (Response) new RestAssuredExtensionv(namastTalk.DELETE.chatProject(), "DELETE", chatInfo.getToken()).executeWithBody(jsonBody);
     }
 
     public static Response onBoarding(ChatInfo chatInfo){
